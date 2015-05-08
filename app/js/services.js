@@ -5296,15 +5296,21 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
         if (width == confirmedWidth) {
           return false;
         }
-        confirmShown = true;
-        ErrorService.confirm({
-          type: newMobile ? 'SWITCH_MOBILE_VERSION' : 'SWITCH_DESKTOP_VERSION'
-        }).then(function () {
-          switchLayout(newMobile);
-        }, function () {
-          ConfigStorage.noPrefix();
-          Storage.set({layout_width: width});
-          confirmShown = false;
+        Storage.get('show_layout_switch_modal').then(function (showModal) {
+          if (showModal) {
+            switchLayout(newMobile);
+            return;
+          }
+          confirmShown = true;
+          ErrorService.confirm({
+            type: newMobile ? 'SWITCH_MOBILE_VERSION' : 'SWITCH_DESKTOP_VERSION'
+          }).then(function () {
+            switchLayout(newMobile);
+          }, function () {
+            ConfigStorage.noPrefix();
+            Storage.set({layout_width: width});
+            confirmShown = false;
+          });
         });
       });
     }

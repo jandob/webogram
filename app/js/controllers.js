@@ -2787,6 +2787,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
     $scope.notify = {volume: 0.5};
     $scope.send = {};
+    $scope.ui = {}
 
     $scope.$watch('photo.file', onPhotoSelected);
 
@@ -2919,7 +2920,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
       });
     };
 
-    Storage.get('notify_nodesktop', 'send_ctrlenter', 'notify_volume', 'notify_novibrate', 'notify_nopreview').then(function (settings) {
+    Storage.get('notify_nodesktop', 'send_ctrlenter', 'notify_volume', 'notify_novibrate', 'notify_nopreview', 'show_layout_switch_modal').then(function (settings) {
       $scope.notify.desktop = !settings[0];
       $scope.send.enter = settings[1] ? '' : '1';
 
@@ -2933,6 +2934,8 @@ angular.module('myApp.controllers', ['myApp.i18n'])
       $scope.notify.vibrate = !settings[3];
 
       $scope.notify.preview = !settings[4];
+
+      $scope.ui.showLayoutSwitchModal = !settings[5];
 
       $scope.notify.volumeOf4 = function () {
         return 1 + Math.ceil(($scope.notify.volume - 0.1) / 0.33);
@@ -3002,6 +3005,17 @@ angular.module('myApp.controllers', ['myApp.i18n'])
           Storage.remove('send_ctrlenter');
         } else {
           Storage.set({send_ctrlenter: true});
+        }
+        $rootScope.$broadcast('settings_changed');
+      }
+
+      $scope.toggleShowLayoutSwitchModal = function () {
+        $scope.ui.showLayoutSwitchModal = !$scope.ui.showLayoutSwitchModal;
+
+        if ($scope.ui.showLayoutSwitchModal) {
+          Storage.remove('show_layout_switch_modal');
+        } else {
+          Storage.set({show_layout_switch_modal: true});
         }
         $rootScope.$broadcast('settings_changed');
       }

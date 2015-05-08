@@ -148,6 +148,12 @@
       <div class="mobile_modal_section_value">
         <a href="" ng-click="switchToDesktop()" my-i18n="settings_switch_back_to_desktop"></a>
       </div>
+      <div class="mobile_modal_action_wrap">
+      <a class="mobile_modal_action tg_checkbox clearfix" ng-click="toggleShowLayoutSwitchModal()" ng-class="ui.showLayoutSwitchModal ? 'tg_checkbox_on' : ''">
+          <span class="icon icon-checkbox-outer"><i class="icon-checkbox-inner"></i></span>
+          <span class="tg_checkbox_label" my-i18n="settings_modal_show_layout_switch_modal"></span>
+      </a>
+      </div>
     </div>
 
     <div class="mobile_modal_section">
